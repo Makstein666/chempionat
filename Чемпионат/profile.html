@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-theme">
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <img class="logo-image" src="Лого.png" alt="Моя семья - мой космос">
+            </div>
+            <nav>
+                <a href="index.html">Главная</a>
+                <a href="profile.html" id="profile-link" class="active">Личный кабинет</a>
+                <a href="#about" class="nav-to-index">О нас</a>
+                <a href="#competitions" class="nav-to-index">Конкурсы</a>
+                <a href="#footer" class="nav-to-index">Контакты</a>
+                <button id="theme-toggle">&#9728;</button>
+            </nav>
+        </div>
+    </header>
+    
+    <main id="content">
+        <section class="profile-form">
+            <div class="container">
+                <h2>Запись на конкурс</h2>
+                <form>
+                    <select required>
+                        <option value="Выберите конкурс">Выберите конкурс</option>
+                        <option value="Конкурс 1">Семейные забавы</option>
+                        <option value="Конкурс 2">Суперсемейка</option>
+            
+                    </select>
+                    <input type="date" value="2024-07-08" readonly>
+                    <input type="time" min="09:00" max="21:00" required>
+                    <input type="number" placeholder="Количество человек" min="1" required>
+                    <button type="submit" class="button">Записаться</button>
+                </form>
+            </div>
+            <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    fetch('user.php')  // Заподключаемся к PHP-скрипту
+        .then(response => response.json()) // Получаем данные в формате JSON
+        .then(data => {
+            // Проверяем есть ли данные пользователя 
+            if (data && Object.keys(data).length > 0) {
+                // Заполняем элементы на странице соответствующими данными
+                document.getElementById('user-name').querySelector('span').textContent = data.name;
+                document.getElementById('user-surname').querySelector('span').textContent = data.surname;
+                document.getElementById('user-gender').querySelector('span').textContent = data.gender;
+                document.getElementById('user-age').querySelector('span').textContent = data.age;
+            } else {
+                // Если данных нет, можно показать сообщение
+                console.log('Нет данных пользователя.');
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+});
+
+            </script>
+        </section>
+        <!-- Новый блок для отображения личных данных -->
+        <section class="user-data">
+            <div class="container">
+                <h2>Ваши личные данные</h2>
+                <p id="user-name">Имя: <span>Имя пользователя</span></p>
+                <p id="user-surname">Фамилия: <span>Фамилия пользователя</span></p>
+                <p id="user-gender">Пол: <span>Пол пользователя</span></p>
+                <p id="user-age">Возраст: <span>Возраст пользователя</span></p>
+            </div>
+        </section>
+    </main>
+    
+    <footer id="footer">
+        <div class="container">
+            <p><a href="tel:+74842234567">+7 (4842) 23-45-67</a></p>
+            <p><a href="mailto:family@cosmos.ru">family@cosmos.ru</a></p>
+            <nav>
+                <a href="index.html">Главная</a>
+                <a href="schedule.html">Конкурс</a>
+                <a href="profile.html">Личный кабинет</a>
+            </nav>
+        </div>
+    </footer>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-theme">
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <img class="logo-image" src="Лого.png" alt="Моя семья - мой космос">
+            </div>
+            <nav>
+                <a href="index.html">Главная</a>
+                <a href="#auth">Авторизация</a>
+                <a href="profile.html" id="profile-link">Личный кабинет</a>
+                <a href="#competitions" class="nav-to-index">Конкурсы</a>
+                <button id="theme-toggle">&#9728;</button>
+            </nav>
+        </div>
+    </header>
+    <main id="content">
+        <section class="register-form">
+            <div class="container">
+                <h2>Регистрация</h2>
+
+                <form id="register-form" action="register.php" method="POST">
+                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="text" id="surname" placeholder="Фамилия" required>
+                    <input type="text" id="name" placeholder="Имя" required>
+                    <select id="gender" required>
+                        <option value="">Выберите пол</option>
+                        <option value="Мужской">Мужской</option>
+                        <option value="Женский">Женский</option>
+                    </select>
+                    <input type="number" id="age" placeholder="Возраст" required>
+                    <input type="password" id="password" placeholder="Пароль" required>
+                    <input type="password" id="confirm-password" placeholder="Повторите пароль" required>
+                    <input type="checkbox" id="agreement" required> Согласен на обработку персональных данных
+                    <div class="button-container">
+                        <button type="submit" id="register-button" class="button" disabled>Зарегистрироваться</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer id="footer">
+        <div class="container">
+            <p><a href="tel:+74842234567">+7 (292) 323-57-62</a></p>
+            <p><a href="mailto:family@cosmos.ru">rusconcurs@cosmos.ru</a></p>
+            <nav>
+                <a href="index.html">Главная</a>
+                <a href="schedule.html">Конкурс</a>
+                <a href="profile.html">Личный кабинет</a>
+            </nav>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('register-form');
+            const registerButton = document.getElementById('register-button');
+
+            // Проверка заполненности формы
+            registerForm.addEventListener('input', function() {
+                const isValid = [...registerForm.elements].every(input => {
+                    if (input.type === 'checkbox') {
+                        return input.checked;
+                    }
+                    return input.value.trim() !== '';
+                });
+                registerButton.disabled = !isValid;
+            });
+
+            // Отправка формы через fetch
+            registerForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Остановить стандартную отправку формы
+
+                const formData = new FormData(registerForm); // Получаем данные формы
+
+                fetch(registerForm.action, { // Используем метод POST для отправки данных на сервер
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text()) // Ждем ответа от сервера в текстовом формате
+                .then(data => {
+                    alert(data); // Выводим ответ от сервера (успех или ошибка)
+
+                    // Проверяем успешность регистрации
+                    if (data.includes('Регистрация успешна!')) {
+                        window.location.href = 'profile.html'; // Перенаправление на личный кабинет
+                    } else {
+                        // Обработка ошибки: можно показать сообщение или что-то другое
+                    }
+
+                })
+                .catch(error => console.error('Ошибка:', error)); // Обработка ошибок
+            });
+        });
+    </script>
+    <script src="js/script.js"></script>
+
+</body>
+</html>
